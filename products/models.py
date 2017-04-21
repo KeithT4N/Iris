@@ -29,3 +29,11 @@ class Product(Model):
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.stall)
+
+
+class ProductTag(Model):
+    content = CharField(max_length = 32)
+    product = ForeignKey(Product, on_delete = CASCADE)
+
+    def __str__(self):
+        return self.content

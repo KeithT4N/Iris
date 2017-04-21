@@ -1,31 +1,39 @@
-from rest_framework.serializers import (
-    ModelSerializer,
-    CharField,
-    IntegerField,
-    DecimalField
-)
+from rest_framework.serializers import ModelSerializer
 
 from products.models import (
     Stall,
     Product
 )
 
-class StallSerializer(ModelSerializer):
-    class Meta:
-        model = Stall
-        fields = '__all__'
-
-class StallUpdateSerializer(ModelSerializer):
-    class Meta:
-        model = Stall
-        fields = ('pk', 'last_updated')
-
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
+class StallSerializer(ModelSerializer):
+    products = ProductSerializer(source = 'product_set', many = True)
+
+    class Meta:
+        model = Stall
+        fields = '__all__'
+
+
+
+
+#Update Serializers
+
 class ProductUpdateSerializer(ModelSerializer):
     class Meta:
         model = Product
-        fields = ('pk', 'last_updated')
+        fields = ('id', 'last_updated')
+
+class StallUpdateSerializer(ModelSerializer):
+    #Stall product can be accessed via stall_instance.product_set.all()
+    #Use ProductUpdateSerializer to process Stall Products
+    products = ProductUpdateSerializer(source = 'product_set', many = True)
+
+    class Meta:
+        model = Stall
+        fields = ('id', 'last_updated', 'products')
+
+
