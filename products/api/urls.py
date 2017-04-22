@@ -7,12 +7,14 @@ from .views.Stall import (
 )
 
 from .views.Product import (
-    ProductList
+    ProductList,
+    ProductDetail
 )
 
 urlpatterns = [
     url(r'^$', StallList.as_view()),
     url(r'^update/$', StallUpdate.as_view()),
     url(r'^(?P<stall_id>(\d+))/$', StallDetail.as_view()),
-    url(r'^(?P<stall_id>(\d+))/products/$', ProductList.as_view())
+    url(r'^(?P<stall_id>(\d+))/products/$', ProductList.as_view()),
+    url(r'^(?P<stall_id>(\d+))/products/(?P<product_id>(\d+))/$', ProductDetail.as_view()),
 ]

@@ -20,7 +20,7 @@ class Stall(Model):
 
 class Product(Model):
     name = CharField(max_length = 64)
-    price = DecimalField(decimal_places = 2, max_digits = 5)
+    price = DecimalField(decimal_places = 2, max_digits = 10)
     stall = ForeignKey(Stall, on_delete = CASCADE)
     description = CharField(max_length = 256)
     quantity = PositiveIntegerField()

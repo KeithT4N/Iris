@@ -37,7 +37,7 @@ class StallDetail(APIView):
 
     def put(self, request, stall_id):
         stall = self.get_object(stall_id)
-        serializer = StallSerializer(stall)
+        serializer = StallSerializer(stall, data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
