@@ -10,6 +10,7 @@ from products.serializers import (
 )
 
 class StallList(APIView):
+
     def get(self, request):
         queryset = Stall.objects.all()
         serializer = StallSerializer(queryset, many = True)
@@ -24,6 +25,7 @@ class StallList(APIView):
 
 
 class StallDetail(APIView):
+
     def get_object(self, stall_id):
         try:
             return Stall.objects.get(pk = stall_id)
@@ -50,6 +52,7 @@ class StallDetail(APIView):
 
 
 class StallUpdate(APIView):
+
     def get(self, request):
         queryset = Stall.objects.all()
         serializer = StallUpdateSerializer(queryset, many = True)
