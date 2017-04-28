@@ -29,19 +29,19 @@ def require_username_password(get_response):
     return middleware
 
 
-def sign_in(request):
-    username = request.data['username']
-    password = request.data['password']
-
-    user = authenticate(username = username, password = password)
-
-    if user is not None:
-        login(request, user)
-        return Response(status = status.HTTP_200_OK)
-
-    return Response(data = {
-        'error': 'Invalid Credentials'
-    }, status = status.HTTP_401_UNAUTHORIZED)
+# def sign_in(request):
+#     username = request.data['username']
+#     password = request.data['password']
+#
+#     user = authenticate(username = username, password = password)
+#
+#     if user is not None:
+#         login(request, user)
+#         return Response(status = status.HTTP_200_OK)
+#
+#     return Response(data = {
+#         'error': 'Invalid Credentials'
+#     }, status = status.HTTP_401_UNAUTHORIZED)
 
 
 def sign_up(request):

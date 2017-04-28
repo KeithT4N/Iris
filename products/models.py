@@ -1,3 +1,5 @@
+from stalls.models import Stall
+
 from django.db.models import (
     Model,
     CharField,
@@ -7,16 +9,6 @@ from django.db.models import (
     PositiveIntegerField,
     CASCADE
 )
-
-
-class Stall(Model):
-    name = CharField(max_length = 64)
-
-    last_updated = DateTimeField(auto_now = True)
-
-    def __str__(self):
-        return self.name
-
 
 class Product(Model):
     name = CharField(max_length = 64)

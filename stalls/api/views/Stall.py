@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from products.models import Stall
-from products.serializers import (
+from stalls.Serializers import (
     StallSerializer,
     StallUpdateSerializer
 )
