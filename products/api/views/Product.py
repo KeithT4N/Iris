@@ -3,16 +3,16 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.utils.dateparse import parse_datetime
 
 from stalls.models import Stall
+from products import update_compiler
+from products.serializers import ProductSerializer
 
 from products.models import (
     Product,
-    ProductTag
-)
-from products.serializers import (
-    ProductSerializer,
-    ProductUpdateSerializer
+    ProductTag,
+    ProductTombstone
 )
 
 def save_tags(tags, product):
@@ -134,6 +134,8 @@ class ProductDetail(APIView):
     def delete(self, request, product_id):
         product = self.get_object(product_id)
         stall = product.stall
+
+        ProductTombstone.objects.create(product_id = product.id)
         product.delete()
 
         stall.last_updated = datetime.now() #Update stall when products are deleted
@@ -142,7 +144,21 @@ class ProductDetail(APIView):
         return Response(status = status.HTTP_204_NO_CONTENT)
 
 class ProductUpdate(APIView):
-    def get(self):
-        queryset = Product.objects.all()
-        serializer = ProductUpdateSerializer(queryset, many = True)
-        return Response(serializer.data)
+    def get(self, request):
+        date_string = request.query_params.get('last_updated', None)
+
+        if date_string is None:
+            return Response(data = {
+                "error": "Date not provided in request"
+            }, status = status.HTTP_400_BAD_REQUEST)
+
+        date = parse_datetime(date_string)
+
+        if date is None:
+            return Response(data = {
+                "error": "Unable to parse datetime"
+            }, status = status.HTTP_400_BAD_REQUEST)
+
+        updates = update_compiler.get_updates_since(date)
+
+        return Response(updates)

@@ -5,12 +5,6 @@ from products.models import (
     ProductTag
 )
 
-class TagSerializer(ModelSerializer):
-    class Meta:
-        model = ProductTag
-        fields = ['content']
-
-
 class ProductSerializer(ModelSerializer):
 
     '''
@@ -31,13 +25,6 @@ class ProductSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
-
-
-# Update Serializers
-
-class ProductUpdateSerializer(ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ('id', 'last_updated')
+        fields = ['id', 'name', 'price', 'stall', 'description', 'quantity', 'stall']
+        read_only_fields = ['tags',]
 

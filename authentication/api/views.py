@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import UserForm
 from rest_framework import status
 from rest_framework.response import Response
@@ -15,6 +17,7 @@ def require_username_password(get_response):
 
     @api_view(['POST'])
     @permission_classes((AllowAny,))
+    @csrf_exempt
     def middleware(request):
 
         if 'username' not in request.data or 'password' not in request.data:
@@ -29,19 +32,19 @@ def require_username_password(get_response):
     return middleware
 
 
-# def sign_in(request):
-#     username = request.data['username']
-#     password = request.data['password']
-#
-#     user = authenticate(username = username, password = password)
-#
-#     if user is not None:
-#         login(request, user)
-#         return Response(status = status.HTTP_200_OK)
-#
-#     return Response(data = {
-#         'error': 'Invalid Credentials'
-#     }, status = status.HTTP_401_UNAUTHORIZED)
+def sign_in(request):
+    username = request.data['username']
+    password = request.data['password']
+
+    user = authenticate(username = username, password = password)
+
+    if user is not None:
+        login(request, user)
+        return Response(status = status.HTTP_200_OK)
+
+    return Response(data = {
+        'error': 'Invalid Credentials'
+    }, status = status.HTTP_401_UNAUTHORIZED)
 
 
 def sign_up(request):
@@ -69,6 +72,7 @@ def sign_out(request):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 def is_logged_in(request):
+
     if request.user.is_authenticated():
         return Response( data = {
             "is_logged_in": True,
