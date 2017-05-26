@@ -11,6 +11,9 @@ from django.db.models import (
     CASCADE
 )
 
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+
 
 class Product(Model):
     name = CharField(max_length = 64)
@@ -41,3 +44,7 @@ class ProductTombstone(Model):
 
     def __str__(self):
         return self.product_id
+
+@receiver(pre_delete, sender = Product)
+def delete_product(sender, instance, **kwargs):
+    ProductTombstone.objects.create(product_id = instance.id)

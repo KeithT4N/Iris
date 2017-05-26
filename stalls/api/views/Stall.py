@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.utils.dateparse import parse_datetime
 
 from stalls import update_compiler
-from stalls.models import Stall, StallTombstone
+from stalls.models import Stall
 from stalls.serializers import StallSerializer
 
 
@@ -24,7 +24,8 @@ class StallList(APIView):
 
 
 class StallDetail(APIView):
-    def get_object(self, stall_id):
+    @staticmethod
+    def get_object(stall_id):
         try:
             return Stall.objects.get(pk = stall_id)
         except:
@@ -47,9 +48,7 @@ class StallDetail(APIView):
 
     def delete(self, request, stall_id):
         stall = self.get_object(stall_id)
-        StallTombstone.objects.create(stall_id = stall.id)
         stall.delete()
-
         return Response(status = status.HTTP_204_NO_CONTENT)
 
 
