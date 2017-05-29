@@ -69,14 +69,14 @@ def sign_out(request):
     return Response(status = status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-@permission_classes((AllowAny,))
-def is_logged_in(request):
-
-    if request.user.is_authenticated():
-        return Response( data = {
-            "is_logged_in": True,
-            "username"    : request.user.username
-        })
-    else:
-        return Response( data = { "is_logged_in": False })
+# @api_view(['GET'])
+# @permission_classes((AllowAny,))
+# def is_logged_in(request):
+#
+#     if request.user.is_authenticated():
+#         return Response( data = {
+#             "is_logged_in": True,
+#             "username"    : request.user.username
+#         })
+#     else:
+#         return Response( data = { "is_logged_in": False })

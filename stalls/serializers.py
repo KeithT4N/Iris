@@ -5,6 +5,7 @@ from rest_framework.serializers import (
 
 from stalls.models import Stall
 
+
 class StallSerializer(ModelSerializer):
     products = SlugRelatedField(source = 'product_set', slug_field = 'pk', many = True, read_only = True)
 

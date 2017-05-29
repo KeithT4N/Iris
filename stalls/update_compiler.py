@@ -1,6 +1,7 @@
 from stalls.models import Stall, StallTombstone
 from stalls.serializers import StallSerializer
 
+
 def get_updates_since(date):
     new_stalls = Stall.objects.filter(date_created__gt = date)
     modified_stalls = Stall.objects.filter(date_updated__gt = date).exclude(date_created__gt = date)

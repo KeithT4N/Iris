@@ -38,6 +38,9 @@ INSTALLED_APPS = [
 
     'channels',
     'rest_framework',
+    'rest_framework.authtoken',
+
+
     'products.apps.ProductsConfig',
     'stalls.apps.StallsConfig'
 ]
@@ -120,7 +123,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES'    : (
         'rest_framework.permissions.IsAuthenticated',
     )
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "Iris.routing.channel_routing",
+    },
 }
